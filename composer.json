@@ -1,17 +1,17 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "inforisorse/smsgateway",
+    "description": "Multivendor SMS Gateway",
     "keywords": [
-        ":vendor_name",
+        "inforisorse",
         "laravel",
-        ":package_slug"
+        "smsgateway"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/inforisorse/smsgateway",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Amedeo Lanza",
+            "email": "amedeo.lanza@consulanza.it",
             "role": "Developer"
         }
     ],
@@ -35,13 +35,13 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src/",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories/"
+            "Inforisorse\\SmsGateway\\": "src/",
+            "Inforisorse\\SmsGateway\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests/"
+            "Inforisorse\\SmsGateway\\Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -61,13 +61,13 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "Inforisorse\\SmsGateway\\SmsGatewayServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
+                "SmsGateway": "Inforisorse\\SmsGateway\\Facades\\SmsGateway"
             }
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": false
 }
