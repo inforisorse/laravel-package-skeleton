@@ -2,9 +2,9 @@
 
 namespace Inforisorse\SmsGateway;
 
+use Inforisorse\SmsGateway\Commands\SmsGatewayCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Inforisorse\SmsGateway\Commands\SmsGatewayCommand;
 
 class SmsGatewayServiceProvider extends PackageServiceProvider
 {

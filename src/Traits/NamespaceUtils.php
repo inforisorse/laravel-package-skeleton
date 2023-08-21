@@ -1,6 +1,6 @@
 <?php
-declare(strict_types=1);
 
+declare(strict_types=1);
 
 namespace Inforisorse\SmsGateway\Traits;
 
@@ -13,6 +13,6 @@ trait NamespaceUtils
 
     protected function cleanClassName(): string
     {
-        return str_replace(__NAMESPACE__ . '\\', '', __CLASS__);
+        return str_replace(__NAMESPACE__.'\\', '', __CLASS__);
     }
 }

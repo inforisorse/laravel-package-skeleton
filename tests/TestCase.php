@@ -3,8 +3,8 @@
 namespace Inforisorse\SmsGateway\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Orchestra\Testbench\TestCase as Orchestra;
 use Inforisorse\SmsGateway\SmsGatewayServiceProvider;
+use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
 {
