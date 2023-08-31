@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Inforisorse\SmsGateway\Contracts;
@@ -6,9 +7,7 @@ namespace Inforisorse\SmsGateway\Contracts;
 use Illuminate\Support\Arr;
 use Inforisorse\SmsGateway\Exceptions\EmptyMessageException;
 use Inforisorse\SmsGateway\Exceptions\EmptyRecipientsException;
-
 use Inforisorse\SmsGateway\Interfaces\SmsDriverInterface;
-
 
 abstract class AbstractSmsDriver implements SmsDriverInterface
 {
@@ -20,27 +19,22 @@ abstract class AbstractSmsDriver implements SmsDriverInterface
 
     protected ?string $messageQuality = null;
 
-
     public function __construct()
     {
         $this->boot();
     }
 
-
-
     /**
      * Get SMS provider's API base url from fonfig
-     *
-     * @return string
      */
     protected function getApiBaseUrl(): string
     {
         return $this->getDriverParam('api_base_url');
     }
 
-
     /**
      * Executed in constructor. Allows to customize constructor
+     *
      * @return void
      */
     protected function boot()
@@ -49,11 +43,11 @@ abstract class AbstractSmsDriver implements SmsDriverInterface
     }
 
     abstract public function setMessageQuality(string $message_quality): self;
+
     /**
      * Set message sender. Any needed check for $sender will be included
      * in checkSender()
      *
-     * @param string|null $sender
      * @return $this
      */
     public function from(?string $sender): self
@@ -61,13 +55,15 @@ abstract class AbstractSmsDriver implements SmsDriverInterface
         $sender = trim($sender);
         $this->checkSender($sender);
         $this->sender = $sender;
+
         return $this;
     }
 
     /**
      * Set the message text
-     * @param string $message
+     *
      * @return $this
+     *
      * @throws EmptyMessageException
      */
     public function send(string $message): self
@@ -75,13 +71,15 @@ abstract class AbstractSmsDriver implements SmsDriverInterface
         $message = trim($message);
         $this->checkMessage($message);
         $this->body = $message;
+
         return $this;
     }
 
     /**
      * Add specified recipients to target addresses
-     * @param array|string $recipients
+     *
      * @return $this
+     *
      * @throws EmptyRecipientsException
      */
     public function to(array|string $recipients): self
@@ -97,8 +95,6 @@ abstract class AbstractSmsDriver implements SmsDriverInterface
 
     /**
      * General method for sending message. Performs checks and send message
-     *
-     * @return void
      */
     public function dispatch(): void
     {
@@ -107,12 +103,10 @@ abstract class AbstractSmsDriver implements SmsDriverInterface
         $this->apiSendMessage();
     }
 
-
     /**
      * Check sender. Descendants can add formal check and throw appropriate
      * exception if needed
      *
-     * @param string $sender
      * @return $this
      */
     protected function checkSender(string $sender): self
@@ -124,7 +118,6 @@ abstract class AbstractSmsDriver implements SmsDriverInterface
      * Check message body. Descendants can override or extend this method
      * in order to customize message content check
      *
-     * @param string $message
      * @return $this
      */
     protected function checkMessage(string $message): self
@@ -133,13 +126,13 @@ abstract class AbstractSmsDriver implements SmsDriverInterface
         if (empty($message)) {
             throw new EmptyMessageException();
         }
+
         return $this;
     }
 
-
-
     /**
      * @return $this
+     *
      * @throws \Inforisorse\SmsGateway\Exceptions\ApiClientLoginFailedException
      */
     protected function apiSendMessage(): self
@@ -147,8 +140,10 @@ abstract class AbstractSmsDriver implements SmsDriverInterface
         $this->preparePayload();
         $this->login();
         $this->sendSMS();
+
         return $this;
     }
+
     /**
      * Pre-send checks: verify target(s) has been set
      *
@@ -159,11 +154,13 @@ abstract class AbstractSmsDriver implements SmsDriverInterface
         if (count($this->recipients) < 1) {
             throw new EmptyRecipientsException();
         }
+
         return $this;
     }
 
     /**
      * Pre-send check: verify message body is not empty
+     *
      * @return $this
      */
     protected function checkBodyIsNotNull(): self
@@ -171,15 +168,12 @@ abstract class AbstractSmsDriver implements SmsDriverInterface
         if (empty($this->message())) {
             throw new EmptyMessageException();
         }
+
         return $this;
     }
 
     /**
      * Compose the requested HTTP header line
-     *
-     * @param string $key
-     * @param string $value
-     * @return string
      */
     protected function makeHeader(string $key, string $value): string
     {
@@ -188,16 +182,18 @@ abstract class AbstractSmsDriver implements SmsDriverInterface
 
     /**
      * Set user:pass authentication for login
+     *
      * @return $this
      */
     protected function setLoginAuth(): self
     {
-        curl_setopt($this->curlHandle, CURLOPT_USERPWD, sprintf("%s:%s", $this->getUsername(), $this->getPassword()));
+        curl_setopt($this->curlHandle, CURLOPT_USERPWD, sprintf('%s:%s', $this->getUsername(), $this->getPassword()));
+
         return $this;
     }
+
     /**
      * Get API username from configuration
-     * @return string
      */
     protected function getUsername(): string
     {
@@ -206,7 +202,6 @@ abstract class AbstractSmsDriver implements SmsDriverInterface
 
     /**
      * Get password for configuration
-     * @return string
      */
     protected function getPassword(): string
     {
@@ -215,9 +210,6 @@ abstract class AbstractSmsDriver implements SmsDriverInterface
 
     /**
      * Descendants will provide login methos to initialize API authentication
-     *
-     * @return self
      */
     abstract protected function login(): self;
-
 }

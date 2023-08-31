@@ -1,8 +1,10 @@
 <?php
+
 declare(strict_types=1);
 /**
  * Copyright (C) 2023, Consulanza Informatica.
  */
+
 namespace Inforisorse\SmsGateway\Drivers;
 
 use GuzzleHttp\Client;
@@ -15,34 +17,34 @@ use Symfony\Component\HttpFoundation\Response;
 
 class Skebby extends AbstractSmsDriver implements SmsDriverInterface
 {
-    const MESSAGE_QUALITY_HIGH = "GP";
-    const MESSAGE_QUALITY_MEDIUM = "TI";
-    const MESSAGE_QUALITY_LOW = "SI";
+    const MESSAGE_QUALITY_HIGH = 'GP';
+
+    const MESSAGE_QUALITY_MEDIUM = 'TI';
+
+    const MESSAGE_QUALITY_LOW = 'SI';
 
     protected $driverName = 'skebby';
 
-
     private $userKey = '';
-    private $sessionKey = '';
-    private $accessToken = '';
 
+    private $sessionKey = '';
+
+    private $accessToken = '';
 
     public function __construct(
         private Client $httpClient
-    )
-    {}
-
-
+    ) {
+    }
 
     protected function driverConfigValue(string $path)
     {
-        return config(sprintf('%s.%s','smsgateway.drivers.skebby', $path));
+        return config(sprintf('%s.%s', 'smsgateway.drivers.skebby', $path));
     }
+
     protected function getApiUrl(string $endpointName): string
     {
         return $this->driverConfigValue('apiBaseUrl');
     }
-
 
     /**
      * Returns the values user-key:session-key for token authentication with SESSION KEY with headers
@@ -52,7 +54,7 @@ class Skebby extends AbstractSmsDriver implements SmsDriverInterface
      */
     protected function login(): self
     {
-        $apiUrl =  $this->getApiUrl('login');
+        $apiUrl = $this->getApiUrl('login');
         $user = $this->driverConfigValue('auth.login.user');
         $password = $this->driverConfigValue('auth.login.password');
 
@@ -63,6 +65,7 @@ class Skebby extends AbstractSmsDriver implements SmsDriverInterface
         $res = excplode(';', $response->body());
         $this->userKey = $res[0];
         $this->sessionKey = $res[1];
+
         return $this;
     }
 
@@ -74,7 +77,7 @@ class Skebby extends AbstractSmsDriver implements SmsDriverInterface
      */
     protected function token(): self
     {
-        $apiUrl =  $this->getApiUrl('token');
+        $apiUrl = $this->getApiUrl('token');
         $user = $this->driverConfigValue('auth.login.user');
         $password = $this->driverConfigValue('auth.login.password');
 
@@ -85,9 +88,9 @@ class Skebby extends AbstractSmsDriver implements SmsDriverInterface
         $res = excplode(';', $response->body());
         $this->userKey = $res[0];
         $this->accessToken = $res[1];
+
         return $this;
     }
-
 
     protected function preparePayload(): self
     {
@@ -105,6 +108,7 @@ class Skebby extends AbstractSmsDriver implements SmsDriverInterface
             throw new InvalidMessageQualityException($message_quality);
         }
         $this->message_quality = $message_quality;
+
         return $this;
     }
 }

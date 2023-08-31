@@ -14,10 +14,10 @@ return [
                 'token' => '6ubgRkZAaISX3csjBwgoXM1S', // set API token for use qith 'token' authtype
                 'login' => [
                     'user' => '',   // set username if using 'login' authtype
-                    'password' => '' // set API password if using 'login' authtype
-                ]
-            ]
+                    'password' => '', // set API password if using 'login' authtype
+                ],
+            ],
 
-        ]
+        ],
     ],
 ];
