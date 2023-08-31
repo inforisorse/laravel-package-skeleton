@@ -6,9 +6,9 @@ use Illuminate\Console\Command;
 
 class SmsGatewayCommand extends Command
 {
-    public $signature = 'smsgateway';
+    public $signature = 'smsgateway:test';
 
-    public $description = 'My command';
+    public $description = 'SMS Gateway Test';
 
     public function handle(): int
     {
